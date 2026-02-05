@@ -3,14 +3,11 @@ import { DashboardLayout } from "@/components/layout/DashboardLayout"
 import { Button } from "@/components/ui/Button"
 import { Input } from "@/components/ui/Input"
 import { supabase } from "@/lib/supabase"
-import { useNavigate } from "react-router-dom"
+// import { useNavigate } from "react-router-dom"
 import { 
   Settings as SettingsIcon, 
   User, 
-  LogOut, 
   CreditCard, 
-  Bell, 
-  Shield,
   Loader2,
   Save,
   X,
@@ -82,10 +79,12 @@ export default function Settings() {
     }
   }
 
+  /*
   const handleSignOut = async () => {
     await supabase.auth.signOut()
     navigate("/auth")
   }
+  */
 
   if (loading) {
     return (

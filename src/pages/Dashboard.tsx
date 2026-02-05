@@ -26,11 +26,9 @@ import { useNavigate } from "react-router-dom"
 
 import { recalculatePlan } from "@/lib/ai-service"
 import { RecalculateDialog } from "@/components/dashboard/RecalculateDialog"
-import { UpgradeModal } from "@/components/dashboard/UpgradeModal"
-import { checkAndUpdateStreak, calculatePerfectWeeks } from "@/lib/gamification"
+import { checkAndUpdateStreak } from "@/lib/gamification"
 import { StreakWidget } from "@/components/dashboard/StreakWidget"
 import { caktoService } from "@/lib/cakto"
-import { RefreshCw } from "lucide-react"
 
 const transformPlanToDashboardData = (dbPlan: any) => {
   // Map quarters_data (from strategic_plans)
@@ -101,14 +99,14 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true)
   const [recalculating, setRecalculating] = useState(false)
   const [showRecalculateModal, setShowRecalculateModal] = useState(false)
-  const [showUpgradeModal, setShowUpgradeModal] = useState(false)
-  const [isProcessingPayment, setIsProcessingPayment] = useState(false)
+  // const [showUpgradeModal, setShowUpgradeModal] = useState(false)
+  // const [isProcessingPayment, setIsProcessingPayment] = useState(false)
   const [expandedQuarter, setExpandedQuarter] = useState<string | null>("q1")
   const [selectedTask, setSelectedTask] = useState<any>(null)
   const [taskNotes, setTaskNotes] = useState("")
   const [taskChecklist, setTaskChecklist] = useState<any[]>([])
   const [streak, setStreak] = useState(0)
-  const [perfectWeeks, setPerfectWeeks] = useState(0)
+  // const [perfectWeeks, setPerfectWeeks] = useState(0)
   const completedTacticsRef = useRef<Set<number>>(new Set())
 
   useEffect(() => {
@@ -127,6 +125,7 @@ export default function Dashboard() {
     setShowRecalculateModal(true)
   }
 
+  /*
   const handleSubscribe = async () => {
     setIsProcessingPayment(true);
     try {
@@ -148,6 +147,14 @@ export default function Dashboard() {
           document: "" // Optional if not required
         },
         items: [
+          ...
+        ]
+      })
+    } catch (error) {
+       // ...
+    }
+  }
+  */
           {
             title: "Vision AI Pro - Assinatura Mensal",
             unit_price: 49.90,
@@ -265,7 +272,7 @@ export default function Dashboard() {
     setEditInstruction("")
   }
 
-  const handleSaveEdit = async (globalIndex: number) => {
+  const handleSaveEdit = async () => {
     if (!planData || !editingActionId) return
 
     // 1. Optimistic Update

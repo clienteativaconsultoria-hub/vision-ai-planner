@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react"
 import { AppLayout } from "@/components/layout/AppLayout"
 import { Button } from "@/components/ui/Button"
-import { Sparkles, ArrowRight, ArrowDown, LayoutDashboard, BrainCircuit, Target, AlertTriangle, CheckCircle2, XCircle, Clock, Users, Briefcase, TrendingUp, Check, Calendar, Trophy, Pencil, RefreshCw, Map, BarChart3, Lock } from "lucide-react"
+import { Sparkles, ArrowRight, ArrowDown, LayoutDashboard, BrainCircuit, Target, AlertTriangle, CheckCircle2, XCircle, Clock, Users, Briefcase, TrendingUp, Check, Calendar, Trophy, Pencil, RefreshCw, Map, BarChart3 } from "lucide-react"
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion"
 import { GenerationLoader } from "@/components/ui/GenerationLoader"
 import { AuthDialog } from "@/components/auth/AuthDialog"
-import { generatePlan } from "@/lib/ai-service"
+// import { generatePlan } from "@/lib/ai-service"
 
 // --- Components ---
 
@@ -146,7 +146,7 @@ function OfferTimer() {
 }
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading] = useState(false)
   const [showAuthModal, setShowAuthModal] = useState(false)
 
   const handleAuthClick = () => {

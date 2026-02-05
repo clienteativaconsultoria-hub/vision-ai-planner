@@ -6,9 +6,6 @@ import {
   Settings, 
   LogOut, 
   Menu, 
-  X, 
-  Bell,
-  User,
   ChevronRight,
   ChevronLeft
 } from "lucide-react"

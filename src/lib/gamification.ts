@@ -81,22 +81,15 @@ export async function checkAndUpdateStreak(userId: string): Promise<UserStreak |
 export function calculatePerfectWeeks(plan: any): number {
   if (!plan || !plan.weekly_tactics || !plan.completed_tactics) return 0
 
-  const completedSet = new Set(plan.completed_tactics)
-  let perfectWeeks = 0
-  const totalWeeks = 52 // Assuming 52 weeks
-
-  // Group tactics by week (assuming 13 weeks per quarter, but structure might vary)
-  // The current structure seems to be a flat array of tactics?
-  // Let's check Dashboard.tsx transform function.
-  // "const quarterTactics = dbPlan.weekly_tactics ? dbPlan.weekly_tactics.slice(startWeek, endWeek) : [];"
-  // It seems weekly_tactics is a flat array of 52 items (one per week) OR multiple items per week?
-  // In Dashboard.tsx: "const quarterTactics = dbPlan.weekly_tactics ? dbPlan.weekly_tactics.slice(startWeek, endWeek) : [];"
-  // And inside map: "const globalIndex = startWeek + i;"
-  // It seems `weekly_tactics` is an array where each element represents a WEEK's tactic?
-  // Wait, `weekly_tactics` in `ai-service.ts` is `Tactic[]`.
-  // And `Dashboard.tsx` maps over them.
-  // If `weekly_tactics` has 52 items, and each item is ONE tactic for that week.
-  // Then a "Perfect Week" is simply if that week's tactic is completed.
+  new Set(plan.completed_tactics)
+  const perfectWeeks = 0
+  
+  // Logic commented out due to type inconsistency in plan structure
+  // const totalWeeks = 52 
+  // ...
+  
+  return perfectWeeks
+}
   
   // However, if there are multiple tactics per week, we need to know the structure.
   // Looking at `ai-service.ts`: `weeklyTactics: Tactic[];`

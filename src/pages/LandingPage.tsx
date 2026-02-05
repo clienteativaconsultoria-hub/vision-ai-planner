@@ -1,6 +1,5 @@
-import React from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, CheckCircle2, Zap, Shield, BarChart3, Users } from "lucide-react";
+import { ArrowRight, Zap, Shield, BarChart3, Users } from "lucide-react";
 import { SpotlightCard } from "../components/ui/SpotlightCard";
 import { Button } from "../components/ui/Button";
 

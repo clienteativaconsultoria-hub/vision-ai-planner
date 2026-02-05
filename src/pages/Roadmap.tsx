@@ -5,8 +5,6 @@ import { motion } from "framer-motion"
 import { 
   Calendar, 
   Flag, 
-  Target, 
-  ArrowRight, 
   CheckCircle2,
   Map as MapIcon,
   Loader2

@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/Button"
 import { ArrowRight, ArrowLeft, Check, Briefcase, TrendingUp, Users, Target, AlertTriangle, DollarSign } from "lucide-react"
 import { supabase } from "@/lib/supabase"
-import { generatePlan } from "@/lib/ai-service"
+// import { generatePlan } from "@/lib/ai-service"
 import { GenerationLoader } from "@/components/ui/GenerationLoader"
 
 // --- Tipos e Dados do Formulário ---
