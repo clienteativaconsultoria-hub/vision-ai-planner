@@ -84,12 +84,14 @@ export async function generatePlan(userGoal: string, context?: OnboardingData): 
       },
       "monthlyFocus": ["Jan: ...", "Fev: ...", ...],
       "weeklyTactics": [
-        { "title": "Semana 1: ...", "description": "Detalhes práticos de como executar..." },
-        { "title": "Semana 2: ...", "description": "..." },
+        { "title": "Semana 1: Título Curto", "description": "Ação direta e breve." },
         ...
       ] (52 itens)
     }
-    Não retorne nada além do JSON. Sem markdown, sem explicações.
+    IMPORTANTE:
+    1. Para as semanas 1-4, detalhe bem.
+    2. Para as semanas 5-52, seja EXTREMAMENTE conciso e resumido (máx 10 palavras na descrição) para acelerar a resposta. O JSON não pode ser cortado.
+    Não retorne nada além do JSON. Sem markdown.
   `;
 
   try {
@@ -104,8 +106,8 @@ export async function generatePlan(userGoal: string, context?: OnboardingData): 
         model: 'command-r-08-2024',
         message: userGoal,
         preamble: systemPrompt,
-        temperature: 0.3,
-        max_tokens: 4000, // Aumentado para garantir resposta completa
+        temperature: 0.2, // Reduzido para ser mais determinístico e rápido
+        max_tokens: 4000, 
       }),
     });
 
