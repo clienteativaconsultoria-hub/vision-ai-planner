@@ -7,12 +7,14 @@ import Roadmap from "./pages/Roadmap"
 import Goals from "./pages/Goals"
 import Settings from "./pages/Settings"
 import LandingPage from "./pages/LandingPage"
+import AdsPage from "./pages/AdsPage"
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/ads" element={<AdsPage />} />
         <Route path="/landing" element={<LandingPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/onboarding" element={<Onboarding />} />
