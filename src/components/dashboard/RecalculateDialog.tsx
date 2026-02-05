@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/Button"
 import { useState } from "react"
-import { Map, Loader2, AlertTriangle } from "lucide-react"
+import { Map, Loader2, AlertTriangle, X } from "lucide-react"
 import { motion } from "framer-motion"
 
 interface RecalculateDialogProps {

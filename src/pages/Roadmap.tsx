@@ -57,9 +57,9 @@ export default function Roadmap() {
 
         // Map DB structure to UI structure
         const uiPlan = {
-          ...data,
-          quarters: data.quarters_data || { q1: [], q2: [], q3: [], q4: [] },
-          monthlyFocus: data.monthly_focus || Array(12).fill("")
+          ...(data as any),
+          quarters: (data as any).quarters_data || { q1: [], q2: [], q3: [], q4: [] },
+          monthlyFocus: (data as any).monthly_focus || Array(12).fill("")
         }
 
         setPlan(uiPlan)

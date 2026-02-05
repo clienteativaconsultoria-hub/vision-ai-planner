@@ -3,7 +3,7 @@ import { DashboardLayout } from "@/components/layout/DashboardLayout"
 import { Button } from "@/components/ui/Button"
 import { Input } from "@/components/ui/Input"
 import { supabase } from "@/lib/supabase"
-// import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { 
   Settings as SettingsIcon, 
   User, 
@@ -40,14 +40,14 @@ export default function Settings() {
       setUser(user)
       setEmail(user.email || "")
 
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('profiles')
         .select('full_name')
         .eq('id', user.id)
         .single()
 
       if (data) {
-        setFullName(data.full_name || "")
+        setFullName((data as any).full_name || "")
       }
     } catch (error) {
       console.error("Error loading user data:", error)
@@ -67,7 +67,7 @@ export default function Settings() {
           id: user.id,
           full_name: fullName,
           updated_at: new Date().toISOString(),
-        })
+        } as any)
 
       if (error) throw error
       alert("Perfil atualizado com sucesso!")

@@ -26,6 +26,7 @@ import { useNavigate } from "react-router-dom"
 
 import { recalculatePlan } from "@/lib/ai-service"
 import { RecalculateDialog } from "@/components/dashboard/RecalculateDialog"
+import { UpgradeModal } from "@/components/dashboard/UpgradeModal"
 import { checkAndUpdateStreak } from "@/lib/gamification"
 import { StreakWidget } from "@/components/dashboard/StreakWidget"
 import { caktoService } from "@/lib/cakto"
@@ -99,14 +100,14 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true)
   const [recalculating, setRecalculating] = useState(false)
   const [showRecalculateModal, setShowRecalculateModal] = useState(false)
-  // const [showUpgradeModal, setShowUpgradeModal] = useState(false)
-  // const [isProcessingPayment, setIsProcessingPayment] = useState(false)
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false)
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false)
   const [expandedQuarter, setExpandedQuarter] = useState<string | null>("q1")
   const [selectedTask, setSelectedTask] = useState<any>(null)
   const [taskNotes, setTaskNotes] = useState("")
   const [taskChecklist, setTaskChecklist] = useState<any[]>([])
   const [streak, setStreak] = useState(0)
-  // const [perfectWeeks, setPerfectWeeks] = useState(0)
+  const [perfectWeeks, setPerfectWeeks] = useState(0)
   const completedTacticsRef = useRef<Set<number>>(new Set())
 
   useEffect(() => {
@@ -123,6 +124,23 @@ export default function Dashboard() {
 
   const handleRecalculateClick = () => {
     setShowRecalculateModal(true)
+  }
+
+  const handleSubscribe = async () => {
+    setIsProcessingPayment(true);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user || !user.email) return;
+      
+      const checkoutData = await caktoService.createCheckout({
+        customer: { name: user.user_metadata?.full_name || "User", email: user.email, phone: "", document: "" },
+        items: [{ title: "Vision AI Pro", unit_price: 49.90, quantity: 1, tangible: false }]
+      });
+      
+      if (checkoutData?.checkout_url) window.location.href = checkoutData.checkout_url;
+      else if (checkoutData?.link) window.location.href = checkoutData.link;
+    } catch (e) { console.error(e) } 
+    finally { setIsProcessingPayment(false); }
   }
 
   /*
@@ -155,36 +173,7 @@ export default function Dashboard() {
     }
   }
   */
-          {
-            title: "Vision AI Pro - Assinatura Mensal",
-            unit_price: 49.90,
-            quantity: 1,
-            tangible: false
-          }
-        ]
-      });
 
-      console.log("Resposta Cakto:", checkoutData);
-
-      // Redirect to payment page
-      // Adjust property name based on real API response (e.g. checkout_url, payment_link)
-      if (checkoutData && checkoutData.checkout_url) {
-        window.location.href = checkoutData.checkout_url;
-      } else if (checkoutData && checkoutData.link) {
-         window.location.href = checkoutData.link;
-      } else {
-         // Fallback if API response is different than expected
-         console.warn("URL de checkout não encontrada na resposta:", checkoutData);
-         alert("Erro ao gerar link de pagamento. Tente novamente.");
-      }
-
-    } catch (error) {
-      console.error("Erro no pagamento:", error);
-      alert("Falha ao iniciar pagamento. Verifique o console.");
-    } finally {
-      setIsProcessingPayment(false);
-    }
-  };
 
   useEffect(() => {
     async function fetchPlan() {
@@ -199,6 +188,7 @@ export default function Dashboard() {
         const streakData = await checkAndUpdateStreak(user.id)
         if (streakData) {
           setStreak(streakData.current_streak)
+          setPerfectWeeks((streakData as any).total_completed_tactics || 0)
         }
 
         const { data, error } = await supabase
@@ -227,7 +217,7 @@ export default function Dashboard() {
         // setPerfectWeeks(calculatePerfectWeeks(data as any)) 
 
         // Initialize completed tactics ref (Using globalIndex based on week_number)
-        const dbTactics = (data.tactics || []) as any[]
+        const dbTactics = ((data as any).tactics || []) as any[]
         const completedIndices = dbTactics
           .filter(t => t.status === 'completed')
           .map(t => (t.week_number || 1) - 1)
@@ -295,11 +285,10 @@ export default function Dashboard() {
 
     // 2. Update Supabase
     try {
-      const { error } = await supabase
-        .from('tactics')
-        .update({ 
+      const { error } = await (supabase.from('tactics') as any)
+        .update({
           title: editTitle,
-          description: editInstruction 
+          description: editInstruction
         })
         .eq('id', tacticId)
 
@@ -345,8 +334,7 @@ export default function Dashboard() {
 
       if (Object.keys(dbUpdates).length === 0) return;
 
-      const { error } = await supabase
-        .from('tactics')
+      const { error } = await (supabase.from('tactics') as any)
         .update(dbUpdates)
         .eq('id', tacticId)
 
@@ -401,8 +389,7 @@ export default function Dashboard() {
 
     // 2. Update Supabase
     try {
-      const { error } = await supabase
-        .from('tactics')
+      const { error } = await (supabase.from('tactics') as any)
         .update({ status: !isCurrentlyCompleted ? 'completed' : 'pending' })
         .eq('id', tacticId);
 
@@ -416,7 +403,7 @@ export default function Dashboard() {
     }
   };
 
-  const handleConfirmRecalculate = async (newGoal: string, contextUpdates: any) => {
+  const handleRecalculateConfirm = async (newGoal: string, contextUpdates: any) => {
     setRecalculating(true)
     try {
       if (!planData) return
@@ -437,8 +424,7 @@ export default function Dashboard() {
 
       // Update Supabase
       // 1. Update Strategic Plan
-      const { error } = await supabase
-        .from('strategic_plans')
+      const { error } = await (supabase.from('strategic_plans') as any)
         .update({
           goal: newPlan.goal,
           quarters_data: newPlan.quarters,
@@ -479,8 +465,8 @@ export default function Dashboard() {
       <RecalculateDialog 
         isOpen={showRecalculateModal} 
         onClose={() => setShowRecalculateModal(false)}
-        onConfirm={handleConfirmRecalculate}
-        currentGoal={planData.title}
+        onConfirm={handleRecalculateConfirm}
+        currentGoal={planData.goal}
       />
 
 
@@ -668,7 +654,7 @@ export default function Dashboard() {
                                     placeholder="Título da tarefa"
                                   />
                                   <div className="flex gap-2 mt-2">
-                                    <Button size="sm" onClick={() => handleSaveEdit(action.globalIndex)} className="h-7 text-xs bg-primary text-black hover:bg-primary/90">
+                                    <Button size="sm" onClick={() => handleSaveEdit()} className="h-7 text-xs bg-primary text-black hover:bg-primary/90">
                                       <Save className="h-3 w-3 mr-1" /> Salvar
                                     </Button>
                                     <Button size="sm" variant="ghost" onClick={handleCancelEdit} className="h-7 text-xs text-gray-400 hover:text-white">
@@ -895,6 +881,25 @@ export default function Dashboard() {
             </motion.div>
           </div>
         )}
+        
+        {showRecalculateModal && (
+          <RecalculateDialog
+            isOpen={showRecalculateModal}
+            onClose={() => setShowRecalculateModal(false)}
+            onConfirm={handleRecalculateConfirm}
+            currentGoal={planData?.goal || ""}
+          />
+        )}
+        
+        {showUpgradeModal && (
+          <UpgradeModal
+            isOpen={showUpgradeModal}
+            onClose={() => setShowUpgradeModal(false)}
+            onConfirm={handleSubscribe}
+            isLoading={isProcessingPayment}
+          />
+        )}
+
       </AnimatePresence>
     </DashboardLayout>
   )

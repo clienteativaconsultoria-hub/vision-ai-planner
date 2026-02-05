@@ -90,25 +90,3 @@ export function calculatePerfectWeeks(plan: any): number {
   
   return perfectWeeks
 }
-  
-  // However, if there are multiple tactics per week, we need to know the structure.
-  // Looking at `ai-service.ts`: `weeklyTactics: Tactic[];`
-  // And `Dashboard.tsx`: `const quarterTactics = dbPlan.weekly_tactics ? dbPlan.weekly_tactics.slice(startWeek, endWeek) : [];`
-  // `startWeek = index * 13`.
-  // So it assumes 13 tactics per quarter. 1 tactic per week.
-  
-  // So, "Perfect Week" = "Completed Tactic" for that week.
-  // So `perfectWeeks` is just `completed_tactics.length`.
-  
-  // BUT, let's verify if `completed_tactics` stores indices of completed weeks.
-  // `Dashboard.tsx`: `const isCompleted = completedIndices.includes(globalIndex);`
-  // Yes, it seems 1 tactic = 1 week.
-  
-  // So "Perfect Weeks" is just the count of completed tactics.
-  // That seems too simple? Maybe "Perfect Month"?
-  // Or maybe the user wants to know how many *consecutive* weeks?
-  // The prompt says "Contador de 'Semanas Perfeitas'".
-  // Let's stick to "Semanas Concluídas" (Completed Weeks) as "Perfect Weeks" for now, since 1 tactic/week.
-  
-  return plan.completed_tactics.length
-}

@@ -153,7 +153,6 @@ export interface Database {
         }
       }
     }
-    }
     Views: {
       [_ in never]: never
     }

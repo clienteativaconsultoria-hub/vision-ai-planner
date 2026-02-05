@@ -71,7 +71,7 @@ export default function Goals() {
           title: newGoalTitle,
           description: newGoalDescription,
           status: 'ativo'
-        })
+        } as any)
         .select()
         .single()
 
@@ -95,8 +95,7 @@ export default function Goals() {
     setGoals(goals.map(g => g.id === goal.id ? { ...g, status: newStatus } : g))
 
     try {
-      const { error } = await supabase
-        .from('goals')
+      const { error } = await (supabase.from('goals') as any)
         .update({ status: newStatus })
         .eq('id', goal.id)
 

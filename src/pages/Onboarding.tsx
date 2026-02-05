@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/Button"
 import { ArrowRight, ArrowLeft, Check, Briefcase, TrendingUp, Users, Target, AlertTriangle, DollarSign } from "lucide-react"
 import { supabase } from "@/lib/supabase"
-// import { generatePlan } from "@/lib/ai-service"
+import { generatePlan } from "@/lib/ai-service"
 import { GenerationLoader } from "@/components/ui/GenerationLoader"
 
 // --- Tipos e Dados do Formulário ---
@@ -79,7 +78,6 @@ const revenues = [
 ]
 
 export default function Onboarding() {
-  const navigate = useNavigate()
   const [step, setStep] = useState(1)
   const [data, setData] = useState<OnboardingData>(initialData)
   const [isGenerating, setIsGenerating] = useState(false)
@@ -147,8 +145,7 @@ export default function Onboarding() {
       console.log("Saving plan for user:", user.id);
 
       // Desativar planos anteriores (Soft delete logic ou apenas flag)
-      await supabase
-        .from('strategic_plans')
+      await (supabase.from('strategic_plans') as any)
         .update({ is_active: false })
         .eq('user_id', user.id)
 
@@ -166,7 +163,7 @@ export default function Onboarding() {
 
       const { data: savedPlan, error: planError } = await supabase
         .from('strategic_plans')
-        .insert(planPayload)
+        .insert(planPayload as any)
         .select()
         .single()
 
@@ -177,8 +174,8 @@ export default function Onboarding() {
       if (!savedPlan) throw new Error("Erro ao criar plano estratégico")
 
       // Inserir Táticas (Bulk Insert)
-      const tacticsData = plan.weeklyTactics.map((tactic, index) => ({
-        plan_id: savedPlan.id,
+      const tacticsData = plan.weeklyTactics.map((tactic: any, index: number) => ({
+        plan_id: (savedPlan as any).id,
         user_id: user.id,
         title: tactic.title,
         description: tactic.description,
