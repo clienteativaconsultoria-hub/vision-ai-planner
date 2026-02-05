@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { Analytics } from "@vercel/analytics/react"
 import Home from "./pages/Home"
 import Dashboard from "./pages/Dashboard"
 import Onboarding from "./pages/Onboarding"
@@ -19,6 +20,7 @@ function App() {
         <Route path="/goals" element={<Goals />} />
         <Route path="/settings" element={<Settings />} />
       </Routes>
+      <Analytics />
     </BrowserRouter>
   )
 }
