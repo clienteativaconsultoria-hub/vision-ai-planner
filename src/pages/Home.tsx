@@ -157,8 +157,15 @@ export default function Home() {
     setShowAuthModal(true)
   }
 
+  const scrollToPricing = () => {
+    const pricingSection = document.getElementById('pricing')
+    if (pricingSection) {
+      pricingSection.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
   return (
-    <AppLayout onAuthClick={handleAuthClick}>
+    <AppLayout onAuthClick={scrollToPricing}>
       <GenerationLoader isVisible={isLoading} />
       <AuthDialog isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
 
@@ -220,19 +227,19 @@ export default function Home() {
                 >
                    <Button 
                       size="lg" 
-                      onClick={handleAuthClick}
+                      onClick={scrollToPricing}
                       className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white font-bold text-lg shadow-[0_0_20px_rgba(249,115,22,0.3)] hover:shadow-[0_0_30px_rgba(249,115,22,0.5)] transition-all rounded-xl h-14 px-8"
                     >
                       Começar Agora
                       <ArrowRight className="ml-2 h-5 w-5" />
                     </Button>
                     
-                    <a 
-                      href="#pricing"
+                    <button 
+                      onClick={scrollToPricing}
                       className="flex items-center justify-center w-full sm:w-auto px-6 h-14 rounded-xl border border-white/10 hover:bg-white/5 font-bold text-sm md:text-base text-white transition-colors whitespace-nowrap"
                     >
                       Quero Destravar meu Ano
-                    </a>
+                    </button>
                 </motion.div>
               </div>
 
@@ -774,7 +781,7 @@ export default function Home() {
             </p>
             
             <div className="flex flex-col items-center gap-6">
-              <Button size="xl" onClick={handleAuthClick} className="w-full md:w-auto h-auto py-4 md:h-20 md:py-0 px-6 md:px-12 text-lg md:text-xl bg-primary hover:bg-orange-500 text-white font-bold shadow-[0_0_60px_rgba(249,115,22,0.4)] hover:shadow-[0_0_100px_rgba(249,115,22,0.6)] hover:scale-105 transition-all rounded-2xl border-t border-white/20 whitespace-normal">
+              <Button size="xl" onClick={scrollToPricing} className="w-full md:w-auto h-auto py-4 md:h-20 md:py-0 px-6 md:px-12 text-lg md:text-xl bg-primary hover:bg-orange-500 text-white font-bold shadow-[0_0_60px_rgba(249,115,22,0.4)] hover:shadow-[0_0_100px_rgba(249,115,22,0.6)] hover:scale-105 transition-all rounded-2xl border-t border-white/20 whitespace-normal">
                 Gerar Meu Plano de Execução
                 <ArrowRight className="ml-3 h-6 w-6 md:h-7 md:w-7 flex-shrink-0" />
               </Button>

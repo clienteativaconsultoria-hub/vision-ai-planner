@@ -102,12 +102,12 @@ export function AuthDialog({ isOpen, onClose }: AuthDialogProps) {
             <Lock className="w-6 h-6 text-primary" />
           </div>
           <h2 className="text-2xl font-bold text-white mb-2">
-            {isLogin ? "Bem-vindo de volta" : "Desbloqueie seu Plano 2026"}
+            {isLogin ? "Bem-vindo de volta" : "Sua Estratégia Começa Aqui"}
           </h2>
           <p className="text-gray-400">
             {isLogin 
               ? "Acesse sua estratégia e continue executando." 
-              : "Crie uma conta gratuita para gerar e salvar sua estratégia personalizada."}
+              : "Preencha seus dados para criar sua conta, gerar o plano personalizado e liberar seu acesso."}
           </p>
         </div>
 

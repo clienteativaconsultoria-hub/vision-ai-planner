@@ -250,6 +250,23 @@ const CreativeGenerator = () => {
 
 export default function AdsPage() {
   const [copied, setCopied] = useState<string | null>(null)
+  const refLogoDark = useRef<HTMLDivElement>(null)
+  const refLogoLight = useRef<HTMLDivElement>(null)
+  const refLogoBrand = useRef<HTMLDivElement>(null)
+
+  const downloadCreative = useCallback(async (ref: RefObject<HTMLDivElement | null>, name: string) => {
+    if (ref.current === null) return
+
+    try {
+      const dataUrl = await toPng(ref.current, { cacheBust: true, pixelRatio: 2 })
+      const link = document.createElement('a')
+      link.download = `${name}.png`
+      link.href = dataUrl
+      link.click()
+    } catch (err) {
+      console.error(err)
+    }
+  }, [])
 
   const copyToClipboard = (text: string, id: string) => {
     navigator.clipboard.writeText(text)
@@ -395,6 +412,69 @@ export default function AdsPage() {
           <Card className="p-8 border-white/10 bg-black/20">
             <CreativeGenerator />
           </Card>
+        </section>
+
+        {/* 5. Identidade Visual */}
+        <section>
+          <div className="flex items-center gap-2 mb-6 text-orange-500">
+            <h2 className="text-xs font-bold uppercase tracking-widest">Identidade Visual</h2>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {/* Logo Dark Mode */}
+            <div className="space-y-3">
+              <div 
+                ref={refLogoDark}
+                className="w-full rounded-xl border shadow-sm p-8 border-white/10 bg-[#0f0f12] flex flex-col items-center justify-center gap-4 h-48 relative overflow-hidden group"
+              >
+                 <div className="absolute top-2 left-2 text-[10px] font-mono text-zinc-600">DARK BG</div>
+                 <div className="flex items-center gap-2 scale-125 group-hover:scale-150 transition-transform duration-500">
+                    <span className="text-3xl font-heading font-bold tracking-tighter text-white">
+                      Vision<span className="text-orange-500">.ai</span>
+                    </span>
+                 </div>
+              </div>
+              <Button onClick={() => downloadCreative(refLogoDark, 'vision-logo-dark')} className="w-full gap-2" variant="outline">
+                <Download className="w-4 h-4" /> Baixar
+              </Button>
+            </div>
+
+             {/* Logo Light Mode */}
+             <div className="space-y-3">
+              <div 
+                ref={refLogoLight}
+                className="w-full rounded-xl border shadow-sm p-8 border-white/10 bg-white flex flex-col items-center justify-center gap-4 h-48 relative overflow-hidden group"
+              >
+                 <div className="absolute top-2 left-2 text-[10px] font-mono text-zinc-400">LIGHT BG</div>
+                 <div className="flex items-center gap-2 scale-125 group-hover:scale-150 transition-transform duration-500">
+                    <span className="text-3xl font-heading font-bold tracking-tighter text-black">
+                      Vision<span className="text-orange-500">.ai</span>
+                    </span>
+                 </div>
+              </div>
+              <Button onClick={() => downloadCreative(refLogoLight, 'vision-logo-light')} className="w-full gap-2" variant="outline">
+                <Download className="w-4 h-4" /> Baixar
+              </Button>
+            </div>
+
+             {/* Logo Brand Color - Monochrome */}
+             <div className="space-y-3">
+              <div 
+                ref={refLogoBrand}
+                className="w-full rounded-xl border shadow-sm p-8 border-white/10 bg-orange-500 flex flex-col items-center justify-center gap-4 h-48 relative overflow-hidden group"
+              >
+                 <div className="absolute top-2 left-2 text-[10px] font-mono text-orange-900/60">BRAND BG</div>
+                 <div className="flex items-center gap-2 scale-125 group-hover:scale-150 transition-transform duration-500">
+                    <span className="text-3xl font-heading font-bold tracking-tighter text-white">
+                      Vision.ai
+                    </span>
+                 </div>
+              </div>
+              <Button onClick={() => downloadCreative(refLogoBrand, 'vision-logo-brand')} className="w-full gap-2" variant="outline">
+                <Download className="w-4 h-4" /> Baixar
+              </Button>
+            </div>
+          </div>
         </section>
 
         {/* Footer Link */}
