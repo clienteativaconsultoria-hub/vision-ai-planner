@@ -690,7 +690,7 @@ export default function Home() {
 
                   <Button 
                     size="xl" 
-                    onClick={() => setShowAuthModal(true)}
+                    onClick={handleAuthClick}
                     className="w-full bg-primary hover:bg-orange-500 text-white font-bold h-14 text-lg shadow-[0_0_20px_rgba(249,115,22,0.2)] hover:shadow-[0_0_40px_rgba(249,115,22,0.4)] transition-all mb-4"
                   >
                     Garantir Acesso Vision Pro
