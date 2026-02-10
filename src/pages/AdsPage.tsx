@@ -53,6 +53,7 @@ const CreativeGenerator = () => {
   const ref1 = useRef<HTMLDivElement>(null)
   const ref2 = useRef<HTMLDivElement>(null)
   const ref3 = useRef<HTMLDivElement>(null)
+  const refBanner300x250 = useRef<HTMLDivElement>(null)
 
   const downloadCreative = useCallback(async (ref: RefObject<HTMLDivElement | null>, name: string) => {
     if (ref.current === null) return
@@ -241,8 +242,75 @@ const CreativeGenerator = () => {
         </div>
 
       </div>
+      
+      {/* Banner 300x250 - Checkout */}
+      <div className="mt-12 pt-8 border-t border-white/10">
+        <p className="text-sm text-muted-foreground font-medium text-center mb-6">Banner 300x250 - Checkout</p>
+        <div className="flex flex-col items-center gap-4">
+          <div className="border border-white/10 rounded-lg overflow-hidden bg-background shadow-2xl">
+            <div ref={refBanner300x250} className="w-[300px] h-[250px] relative bg-gradient-to-br from-[#FFFBF7] via-[#FFECD1] to-[#FAF7F5] flex flex-col overflow-hidden">
+              {/* Top accent bar - gradient */}
+              <div className="h-1 bg-gradient-to-r from-[#FF6B35] to-[#FF7849]" />
+              
+              {/* Content */}
+              <div className="flex flex-col h-full px-4 py-3 justify-between gap-2">
+                {/* Header Row - Logo + Badge */}
+                <div className="flex items-center justify-between gap-2 flex-shrink-0">
+                  <span className="text-[11px] font-black tracking-widest text-[#FF6B35] uppercase">Vision AI</span>
+                  <span className="text-[9px] bg-[#FFF4E6] text-[#FF6B35] px-2 py-0.5 rounded-full font-bold border border-[#FF7849]/20 whitespace-nowrap">7 dias grátis</span>
+                </div>
+
+                {/* Main Headline - Strong AIDA */}
+                <div className="space-y-0.5 flex-shrink-0">
+                  <h2 className="text-[18px] font-black text-[#1A1A1A] leading-tight tracking-tight">
+                    Transforme seus<br/>objetivos em ação
+                  </h2>
+                  <p className="text-[9px] text-[#666666] leading-snug font-medium">
+                    52 semanas de tarefas claras. Sem procrastinação.
+                  </p>
+                </div>
+
+                {/* Social Proof Box */}
+                <div className="bg-[#FFF4E6] border border-[#FF7849]/25 px-3 py-2 rounded-lg space-y-0.5 flex-shrink-0">
+                  <div className="text-[9px] font-black text-[#FF6B35]">
+                    +1.200 usuários
+                  </div>
+                  <div className="text-[8px] text-[#2D2D2D] font-medium leading-tight">
+                    já realizaram seus objetivos em fevereiro
+                  </div>
+                </div>
+
+                {/* Benefits List */}
+                <div className="space-y-1 text-[9px] flex-shrink-0">
+                  <div className="flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#FF6B35] flex-shrink-0" />
+                    <span className="text-[#2D2D2D] font-medium">Seu plano em 15 minutos</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#FF6B35] flex-shrink-0" />
+                    <span className="text-[#2D2D2D] font-medium">Acompanhamento semanal</span>
+                  </div>
+                </div>
+
+                {/* CTA Button - High Contrast */}
+                <div className="space-y-1 flex-shrink-0">
+                  <button className="w-full bg-gradient-to-r from-[#FF6B35] to-[#FF7849] text-white py-2 rounded-lg font-black text-[10px] leading-none hover:shadow-md hover:from-[#FF5520] hover:to-[#FF6830] transition-all duration-200 uppercase tracking-wide">
+                    Começar agora
+                  </button>
+                  <p className="text-[7px] text-[#666666] text-center font-medium">
+                    Sem cartão. Sem compromisso.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <Button onClick={() => downloadCreative(refBanner300x250, 'vision-banner-300x250-checkout')} className="gap-2" variant="outline">
+            <Download className="w-4 h-4" /> Baixar Banner 300x250
+          </Button>
+        </div>
+      </div>
       <p className="text-center text-xs text-muted-foreground mt-8">
-        * As imagens são geradas em alta resolução (1080x1080 - Pixel Perfect) ao clicar em baixar.
+        * As imagens são geradas em alta resolução (1080x1080 - Pixel Perfect) ao clicar em baixar. Banner: 600x500.
       </p>
     </div>
   )
